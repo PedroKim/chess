@@ -1,9 +1,9 @@
 require_relative 'pieces/pieces'
 require 'byebug'
 class Board
-    def initialize
+    def initialize(grid = nil)
         @sentinel = NullPiece.instance
-        @grid = setup_board
+        @grid = grid ? grid : setup_board
     end
 
     def [](pos)
@@ -14,6 +14,15 @@ class Board
     def []=(pos, piece)
         row, col = pos
         grid[row][col] = piece
+    end
+
+    def dup
+        grid = []
+        @grid.each do |row|
+            grid << row.dup
+        end
+        grid
+        Board.new(grid)
     end
 
     def render_board
@@ -38,6 +47,30 @@ class Board
         grid
     end
 
+    def all_pieces(color)
+        grid.flatten.select do |piece|
+            !piece.is_a?(NullPiece) && piece.color == color
+        end
+    end
+
+    def find_king(color)
+        all_pieces(color).each do |piece|
+            return piece if piece.is_a?(King)
+        end
+    end
+
+    def in_check?(color)
+        king = find_king(color)
+        opp_color = color == :black ? :white : :black
+        all_pieces(opp_color).any? do |piece|
+            piece.moves.include?(king.pos)
+        end
+    end
+
+    def checkmate?(color)
+        in_check?(color) && all_pieces(color).map(&:valid_moves).all?(&:empty?)
+    end
+
     private
     attr_accessor :grid
 
@@ -49,7 +82,7 @@ class Board
     end
 
     def fill_back_rows(grid)
-        pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
+        pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
         [0, 7].each do |row_idx|
             color = row_idx == 0 ? :black : :white
             pieces.each_with_index do |p_class, col_idx|

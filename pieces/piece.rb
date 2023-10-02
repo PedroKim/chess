@@ -21,6 +21,16 @@ class Piece
         # each version should return an array of places a piece can move to.
     end
 
+    def move_into_check?(end_pos)
+        board_copy = board.dup 
+        board_copy.move_piece(pos, end_pos)
+        board_copy.in_check?(color)
+    end
+
+    def valid_moves
+        moves.select { |move| !move_into_check?(move) }
+    end
+
     def symbol
         'P'
     end
