@@ -21,8 +21,12 @@ class Piece
         # each version should return an array of places a piece can move to.
     end
 
-    def to_s
+    def symbol
         'P'
+    end
+
+    def to_s
+        "#{symbol}"
     end
 
     def inspect

@@ -51,7 +51,7 @@ class Board
     def fill_back_rows(grid)
         pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
         [0, 7].each do |row_idx|
-            color = row_idx == 0 ? :white : :black
+            color = row_idx == 0 ? :black : :white
             pieces.each_with_index do |p_class, col_idx|
                 p_class.new(color, self, [row_idx, col_idx])
             end
@@ -60,9 +60,9 @@ class Board
 
     def fill_front_rows(grid)
         [1, 6].each do |row_idx|
-            color = row_idx == 1 ? :white : :black
+            color = row_idx == 1 ? :black : :white
             grid[row_idx].map!.with_index do |_, col_idx|
-                Piece.new(color, self, [row_idx, col_idx])
+                Pawn.new(color, self, [row_idx, col_idx])
             end
         end
     end

@@ -4,6 +4,10 @@ require_relative 'slideable'
 class Bishop < Piece
     include Slideable
 
+    def symbol
+        '♝'
+    end
+
     def inspect
         'Bi'
     end
