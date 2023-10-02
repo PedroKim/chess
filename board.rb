@@ -49,7 +49,7 @@ class Board
     end
 
     def fill_back_rows(grid)
-        pieces = [Rook, Piece, Bishop, Piece, Queen, Bishop, Piece, Rook]
+        pieces = [Rook, Knight, Bishop, King, Queen, Bishop, Knight, Rook]
         [0, 7].each do |row_idx|
             color = row_idx == 0 ? :white : :black
             pieces.each_with_index do |p_class, col_idx|

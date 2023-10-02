@@ -4,11 +4,12 @@ require_relative 'slideable'
 class Bishop < Piece
     include Slideable
 
-    def move_dirs
-        diagonal_dirs
-    end
-
     def inspect
         'Bi'
+    end
+
+    private
+    def move_dirs
+        diagonal_dirs
     end
 end

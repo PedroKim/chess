@@ -21,10 +21,7 @@ module Slideable
         ORTHOGONAL_DIRS
     end
 
-    def move_dirs
-        raise NotImplementedError
-    end
-
+    
     def moves
         moves = []
         move_dirs.each do |dx, dy|
@@ -32,8 +29,12 @@ module Slideable
         end
         moves
     end
-
+    
     private
+    def move_dirs
+        raise NotImplementedError
+    end
+    
     def grow_unblocked_moves_in_dir(dx, dy)
         moves = []
         next_pos = pos
@@ -51,7 +52,7 @@ module Slideable
                 break
             end
         end
-        
+
         moves
     end
 end
