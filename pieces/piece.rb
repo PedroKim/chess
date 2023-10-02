@@ -2,7 +2,8 @@ class Piece
     attr_reader :color, :board, :pos
 
     def initialize(color, board, pos)
-        @color, @board, @pos = color, board, pos
+        @color, @board = color, board
+        self.pos = pos
     end
 
     def pos=(pos)
@@ -12,6 +13,12 @@ class Piece
 
     def empty?
         false
+    end
+
+    def moves
+        raise NotImplementedError
+        # each individual piece class should implement it's own moves method
+        # each version should return an array of places a piece can move to.
     end
 
     def to_s

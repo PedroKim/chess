@@ -11,6 +11,10 @@ class NullPiece < Piece
         true
     end
 
+    def moves
+        []
+    end
+
     def to_s
         ' '
     end

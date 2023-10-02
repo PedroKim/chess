@@ -1,6 +1,5 @@
-require_relative 'piece'
-require_relative 'null_piece'
-
+require_relative 'pieces/pieces'
+require 'byebug'
 class Board
     def initialize
         @sentinel = NullPiece.instance
@@ -40,20 +39,21 @@ class Board
     end
 
     private
-    attr_reader :grid
+    attr_accessor :grid
 
     def setup_board
-        grid = Array.new(8) { Array.new(8, @sentinel) }
+        self.grid = Array.new(8) { Array.new(8, @sentinel) }
         fill_back_rows(grid)
         fill_front_rows(grid)
         grid
     end
 
     def fill_back_rows(grid)
+        pieces = [Rook, Piece, Bishop, Piece, Queen, Bishop, Piece, Rook]
         [0, 7].each do |row_idx|
             color = row_idx == 0 ? :white : :black
-            grid[row_idx].map!.with_index do |_, col_idx| 
-                Piece.new(color, self, [row_idx, col_idx]) 
+            pieces.each_with_index do |p_class, col_idx|
+                p_class.new(color, self, [row_idx, col_idx])
             end
         end
     end
