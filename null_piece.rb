@@ -7,6 +7,10 @@ class NullPiece < Piece
     def initialize
     end
 
+    def empty?
+        true
+    end
+
     def to_s
         ' '
     end

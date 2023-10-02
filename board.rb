@@ -9,21 +9,39 @@ class Board
 
     def [](pos)
         row, col = pos
-        @grid[row][col]
+        grid[row][col]
     end
 
     def []=(pos, piece)
         row, col = pos
-        @grid[row][col] = piece
+        grid[row][col] = piece
     end
 
     def render_board
-        @grid.each do |row|
+        grid.each do |row|
             puts row.join(' ')
         end
     end
 
+    def check_bounds(pos)
+        pos.all? { |coord| coord.between?(0, 7) }
+    end
+
+    def move_piece(start_pos, end_pos)
+        [start_pos, end_pos].each do |pos| 
+            raise "#{pos} is out of bounds" unless check_bounds(pos)
+        end
+        raise "there is no piece at #{start_pos}" if self[start_pos].empty?
+        raise "the piece cannot move to #{end_pos}" unless self[end_pos].empty?
+
+        self[start_pos].pos = end_pos
+        self[start_pos] = @sentinel
+        grid
+    end
+
     private
+    attr_reader :grid
+
     def setup_board
         grid = Array.new(8) { Array.new(8, @sentinel) }
         fill_back_rows(grid)
