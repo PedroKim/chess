@@ -19,7 +19,15 @@ class Board
     def dup
         grid = []
         @grid.each do |row|
-            grid << row.dup
+            new_row = []
+            row.each do |piece|
+                if piece.is_a?(NullPiece)
+                    new_row << @sentinel
+                else
+                    new_row << piece.class.new(piece.color, piece.board, piece.pos)
+                end
+            end
+            grid << new_row
         end
         grid
         Board.new(grid)
@@ -43,6 +51,7 @@ class Board
         raise "the piece cannot move to #{end_pos}" unless self[end_pos].empty?
 
         self[start_pos].pos = end_pos
+        self[end_pos] = self[start_pos]
         self[start_pos] = @sentinel
         grid
     end
@@ -85,8 +94,8 @@ class Board
         pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
         [0, 7].each do |row_idx|
             color = row_idx == 0 ? :black : :white
-            pieces.each_with_index do |p_class, col_idx|
-                p_class.new(color, self, [row_idx, col_idx])
+            @grid[row_idx].map!.with_index do |_, col_idx|
+                pieces[col_idx].new(color, self, [row_idx, col_idx])
             end
         end
     end
@@ -100,3 +109,11 @@ class Board
         end
     end
 end
+
+# b = Board.new
+# b.move_piece([6, 5], [5, 5])
+# b.move_piece([1, 4], [3, 4])
+# b.move_piece([6, 6], [4, 6])
+# b.move_piece([0, 3], [4, 7])
+# b.render_board
+# puts b.checkmate?(:white)
