@@ -18,7 +18,8 @@ class Piece
 
     def move_into_check?(end_pos)
         board_copy = board.dup
-        board_copy.move_piece(pos, end_pos)
+        # debugger
+        board_copy.move_piece!(pos, end_pos)
         board_copy.in_check?(color)
     end
 

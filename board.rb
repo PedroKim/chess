@@ -43,12 +43,21 @@ class Board
         pos.all? { |coord| coord.between?(0, 7) }
     end
 
+    def move_piece!(start_pos, end_pos)
+        self[start_pos].pos = end_pos
+        self[end_pos] = self[start_pos]
+        self[start_pos] = @sentinel
+    end
+
     def move_piece(start_pos, end_pos)
         [start_pos, end_pos].each do |pos| 
             raise "#{pos} is out of bounds" unless check_bounds(pos)
         end
         raise "there is no piece at #{start_pos}" if self[start_pos].empty?
         raise "the piece cannot move to #{end_pos}" unless self[end_pos].empty?
+        if self[start_pos].move_into_check?(end_pos)
+            raise "this move will put you in check."
+        end
 
         self[start_pos].pos = end_pos
         self[end_pos] = self[start_pos]
@@ -110,10 +119,11 @@ class Board
     end
 end
 
-# b = Board.new
-# b.move_piece([6, 5], [5, 5])
-# b.move_piece([1, 4], [3, 4])
-# b.move_piece([6, 6], [4, 6])
-# b.move_piece([0, 3], [4, 7])
-# b.render_board
-# puts b.checkmate?(:white)
+b = Board.new
+b.move_piece([6, 5], [5, 5])
+b.move_piece([1, 4], [3, 4])
+b.move_piece([6, 6], [4, 6])
+b.move_piece([0, 3], [4, 7])
+b.render_board
+puts b.checkmate?(:white)
+b.move_piece([6, 0], [5, 0])
