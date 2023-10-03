@@ -2,7 +2,7 @@ require_relative 'pieces/pieces'
 require 'byebug'
 class Board
     attr_reader :grid
-    
+
     def initialize(grid = nil)
         @sentinel = NullPiece.instance
         @grid = grid ? grid : setup_board
@@ -46,25 +46,31 @@ class Board
     end
 
     def move_piece!(start_pos, end_pos)
-        self[start_pos].pos = end_pos
-        self[end_pos] = self[start_pos]
+        piece = self[start_pos]
+        piece.pos = end_pos
+        self[end_pos] = piece
         self[start_pos] = @sentinel
     end
 
-    def move_piece(start_pos, end_pos)
+    def move_piece(start_pos, end_pos, color)
         [start_pos, end_pos].each do |pos| 
             raise "#{pos} is out of bounds" unless valid_pos?(pos)
         end
-        raise "there is no piece at #{start_pos}" if self[start_pos].empty?
-        raise "the piece cannot move to #{end_pos}" unless self[end_pos].empty?
-        if self[start_pos].move_into_check?(end_pos)
+        
+        start_piece, end_piece = self[start_pos], self[end_pos]
+
+        raise "there is no piece at #{start_pos}" if start_piece.empty?
+        unless end_piece.empty? || end_piece.color != color
+            raise "your piece is at #{end_pos}"
+        end
+        if start_piece.move_into_check?(end_pos)
             raise "this move will put you in check."
         end
+        unless start_piece.valid_moves.include?(end_pos)
+            raise "illegal move. #{start_piece.symbol} cannot be moved to #{end_pos}"
+        end
 
-        self[start_pos].pos = end_pos
-        self[end_pos] = self[start_pos]
-        self[start_pos] = @sentinel
-        grid
+        move_piece!(start_pos, end_pos)
     end
 
     def all_pieces(color)
