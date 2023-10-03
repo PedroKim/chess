@@ -20,7 +20,7 @@ class Game
                 system("clear")
                 puts "#{current_player.color.capitalize}'s turn!"
                 display.cursor.cursor_pos = current_player.cursor_pos
-                display.render
+                render
                 if error_message
                     puts error_message
                     set_error_message(nil)
@@ -35,9 +35,14 @@ class Game
         end
         system("clear")
         display.cursor.cursor_pos = [-1, -1]
-        display.render
+        render
+        opp_player = current_player
         swap_turn!
-        puts "#{current_player.color} wins!!!"
+        puts "checkmate #{opp_player.color}, #{current_player.color} wins!!!"
+    end
+
+    def render
+        display.render([])
     end
 
     private
