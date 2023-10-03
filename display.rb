@@ -16,7 +16,7 @@ class Display
                 # background = (row_idx + col_idx) % 2 == 0 ? :yellow : :green
                 background = :light_gray
                 if [row_idx, col_idx] == cursor.cursor_pos
-                    background = cursor.selected ? :light_blue : :red
+                    background = cursor.selected ? :light_green : :light_red
                 end
                 # if [row_idx, col_idx] == [0, 0]
                 #     debugger
@@ -37,7 +37,8 @@ end
 # puts "\e[0;37;44m♜ \e[0m"
 # puts "\e[0;30;104m♜ \e[0m"
 # loop do
-#     system("clear")
+#     # system("clear")
 #     d.render
-#     d.cursor.get_input
+#     val = d.cursor.get_input
+#     puts val
 # end
