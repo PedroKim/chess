@@ -12,13 +12,10 @@ class Piece
 
     def moves
         raise NotImplementedError
-        # each individual piece class should implement it's own moves method
-        # each version should return an array of places a piece can move to.
     end
 
     def move_into_check?(end_pos)
         board_copy = board.dup
-        # debugger
         board_copy.move_piece!(pos, end_pos)
         board_copy.in_check?(color)
     end

@@ -46,8 +46,8 @@ class Game
         @error_message = msg
     end
 
-    def notify_players
-    end
+    # def notify_players
+    # end
 
     def swap_turn!
         @current_player = @current_player == @player_1 ? @player_2 : @player_1

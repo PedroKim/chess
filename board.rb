@@ -56,7 +56,7 @@ class Board
         [start_pos, end_pos].each do |pos| 
             raise "#{pos} is out of bounds" unless valid_pos?(pos)
         end
-        
+
         start_piece, end_piece = self[start_pos], self[end_pos]
 
         raise "there is no piece at #{start_pos}" if start_piece.empty?
@@ -126,12 +126,3 @@ class Board
         end
     end
 end
-
-# b = Board.new
-# b.move_piece([6, 5], [5, 5])
-# b.move_piece([1, 4], [3, 4])
-# b.move_piece([6, 6], [4, 6])
-# b.move_piece([0, 3], [4, 7])
-# b.render_board
-# puts b.checkmate?(:white)
-# b.move_piece([6, 0], [5, 0])
