@@ -41,7 +41,7 @@ module Slideable
 
         loop do
             next_pos = [next_pos[0] + dx, next_pos[1] + dy]
-            break unless board.check_bounds(next_pos)
+            break unless board.valid_pos?(next_pos)
             # next pos is in bound
             if board[next_pos].empty?
                 moves << next_pos

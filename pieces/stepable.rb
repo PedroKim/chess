@@ -3,7 +3,7 @@ module Stepable
         moves = []
         move_diffs.each do |dx, dy|
             next_pos = [pos[0] + dx, pos[1] + dy]
-            next unless board.check_bounds(next_pos)
+            next unless board.valid_pos?(next_pos)
             if board[next_pos].empty?
                 moves << next_pos
             else

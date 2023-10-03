@@ -1,6 +1,8 @@
 require_relative 'pieces/pieces'
 require 'byebug'
 class Board
+    attr_reader :grid
+    
     def initialize(grid = nil)
         @sentinel = NullPiece.instance
         @grid = grid ? grid : setup_board
@@ -39,7 +41,7 @@ class Board
         end
     end
 
-    def check_bounds(pos)
+    def valid_pos?(pos)
         pos.all? { |coord| coord.between?(0, 7) }
     end
 
@@ -51,7 +53,7 @@ class Board
 
     def move_piece(start_pos, end_pos)
         [start_pos, end_pos].each do |pos| 
-            raise "#{pos} is out of bounds" unless check_bounds(pos)
+            raise "#{pos} is out of bounds" unless valid_pos?(pos)
         end
         raise "there is no piece at #{start_pos}" if self[start_pos].empty?
         raise "the piece cannot move to #{end_pos}" unless self[end_pos].empty?
@@ -90,7 +92,7 @@ class Board
     end
 
     private
-    attr_accessor :grid
+    attr_writer :grid
 
     def setup_board
         self.grid = Array.new(8) { Array.new(8, @sentinel) }
@@ -119,11 +121,11 @@ class Board
     end
 end
 
-b = Board.new
-b.move_piece([6, 5], [5, 5])
-b.move_piece([1, 4], [3, 4])
-b.move_piece([6, 6], [4, 6])
-b.move_piece([0, 3], [4, 7])
-b.render_board
-puts b.checkmate?(:white)
-b.move_piece([6, 0], [5, 0])
+# b = Board.new
+# b.move_piece([6, 5], [5, 5])
+# b.move_piece([1, 4], [3, 4])
+# b.move_piece([6, 6], [4, 6])
+# b.move_piece([0, 3], [4, 7])
+# b.render_board
+# puts b.checkmate?(:white)
+# b.move_piece([6, 0], [5, 0])

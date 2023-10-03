@@ -32,7 +32,7 @@ class Pawn < Piece
         next_col = pos[0] + forward_dir
         row = pos[1]
         [[next_col, row + 1], [next_col, row - 1]].select do |pos|
-            board.check_bounds(pos) && !board[pos].empty? && board[pos].color != color
+            board.valid_pos?(pos) && !board[pos].empty? && board[pos].color != color
         end
     end
 end
